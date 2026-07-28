@@ -1,0 +1,367 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student List</title>
+</head>
+<body>
+    <h1>Student List</h1>
+    
+    <a href="{% url 'add_student'%}">Add Student</a>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Student List</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+body{
+    min-height:100vh;
+    background:linear-gradient(-45deg,#4facfe,#00f2fe,#43e97b,#38f9d7);
+    background-size:400% 400%;
+    animation:bg 10s ease infinite;
+    padding:40px;
+}
+
+.navbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:#00bcd4;
+    padding:15px 30px;
+    border-radius:10px;
+    margin-bottom:20px;
+}
+
+.navbar h2{
+    color:white;
+}
+
+.navbar a{
+    color:white;
+    text-decoration:none;
+    margin-left:20px;
+}
+
+.success-message{
+    background:green;
+    color:white;
+    padding:12px;
+    border-radius:8px;
+    margin-bottom:15px;
+}
+
+footer{
+    margin-top:30px;
+    text-align:center;
+    color:white;
+    font-weight:bold;
+}
+
+
+@keyframes bg{
+
+0%{
+background-position:0% 50%;
+}
+
+50%{
+background-position:100% 50%;
+}
+
+100%{
+background-position:0% 50%;
+}
+
+}
+
+.container{
+
+max-width:1200px;
+margin:auto;
+background:#fff;
+padding:30px;
+border-radius:20px;
+box-shadow:0 10px 30px rgba(0,0,0,.3);
+animation:show .8s;
+
+}
+
+@keyframes show{
+
+from{
+opacity:0;
+transform:translateY(30px);
+}
+
+to{
+opacity:1;
+transform:translateY(0);
+}
+
+}
+
+h1{
+
+text-align:center;
+margin-bottom:25px;
+color:#333;
+
+}
+
+.top{
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:20px;
+flex-wrap:wrap;
+gap:15px;
+
+}
+
+.search{
+
+width:300px;
+padding:12px;
+border-radius:8px;
+border:2px solid #ddd;
+outline:none;
+
+}
+
+.search:focus{
+
+border-color:#00bcd4;
+
+}
+.search-form{
+    display:flex;
+    gap:10px;
+    align-items:center;
+    flex-wrap:wrap;
+}
+
+.search-btn{
+    background:#00bcd4;
+    color:white;
+    border:none;
+    padding:12px 20px;
+    border-radius:8px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.search-btn:hover{
+    background:#0097a7;
+}
+
+
+.add{
+
+background:#00bcd4;
+color:white;
+padding:12px 18px;
+text-decoration:none;
+border-radius:8px;
+transition:.3s;
+
+}
+
+.add:hover{
+
+background:#0097a7;
+
+}
+
+table{
+
+width:100%;
+border-collapse:collapse;
+
+}
+
+table th{
+
+background:#00bcd4;
+color:white;
+padding:15px;
+
+}
+
+table td{
+
+padding:12px;
+text-align:center;
+border-bottom:1px solid #ddd;
+
+}
+
+tr:hover{
+
+background:#f4f4f4;
+
+}
+
+.edit{
+
+background:green;
+color:white;
+padding:8px 12px;
+border-radius:6px;
+text-decoration:none;
+
+}
+
+.delete{
+
+background:red;
+color:white;
+padding:8px 12px;
+border-radius:6px;
+text-decoration:none;
+
+}
+
+@media(max-width:768px){
+
+table{
+
+display:block;
+overflow-x:auto;
+
+}
+
+.search{
+
+width:100%;
+
+}
+
+.top{
+
+flex-direction:column;
+
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+    <div class="navbar">
+        <h2>Student Management System</h2>
+        <div class="nav-links">
+            <a href="{% url 'student_list' %}">Home</a>
+            <a href="{% url 'add_student' %}">Add Student</a>
+        </div>
+    </div>
+
+<div class="container">
+{% if messages %}
+
+    {% for message in messages %}
+        <div class="message {{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+{% endif %}
+<h1>Student List</h1>
+<h3>Total Students: {{total_students}}</h3>
+
+<div class="top">
+
+
+<form method="GET" class="search-form">
+    <input
+        type="text"
+        name="q"
+        class="search"
+        placeholder="Search by Name or Course..."
+        value="{{ request.GET.q }}">
+
+    <button type="submit" class="search-btn">
+        🔍 Search
+    </button>
+</form>
+
+<a href="{% url 'add_student' %}" class="add">
++ Add Student
+</a>
+
+</div>
+
+<table>
+
+<tr>
+
+<th>ID</th>
+<th>Name</th>
+<th>Age</th>
+<th>Phone</th>
+<th>Course</th>
+<th>Address</th>
+<th>Action</th>
+
+</tr>
+
+{% for student in students %}
+
+<tr>
+
+<td>{{ student.id }}</td>
+<td>{{ student.name }}</td>
+<td>{{ student.age }}</td>
+<td>{{ student.phone }}</td>
+<td>{{ student.course }}</td>
+<td>{{ student.address }}</td>
+
+<td>
+
+<a href="{% url 'edit_student' student.id  %}" class="edit">
+Edit
+</a>
+
+<a href="{% url 'delete_student' student.id %}" onclick="return confirm('Are You sure You want delet this students')" class="delete">
+Delete
+</a>
+
+</td>
+
+</tr>
+
+{% empty %}
+
+<tr>
+
+<td colspan="7">
+
+No Student Found
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+</div>
+    <footer>
+        &copy; 2024 Student Management System | Developed by Sarvesh Nisahd 
+</body>
+</html>

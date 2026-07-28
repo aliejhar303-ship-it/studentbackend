@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Add Student</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+body{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(-45deg,#4facfe,#00f2fe,#43e97b,#38f9d7);
+    background-size:400% 400%;
+    animation:bgMove 12s ease infinite;
+}
+
+@keyframes bgMove{
+
+0%{
+background-position:0% 50%;
+}
+
+50%{
+background-position:100% 50%;
+}
+
+100%{
+background-position:0% 50%;
+}
+
+}
+
+.container{
+
+width:90%;
+max-width:500px;
+background:white;
+padding:35px;
+border-radius:20px;
+box-shadow:0 15px 40px rgba(0,0,0,.25);
+animation:popup .8s ease;
+
+}
+
+@keyframes popup{
+
+from{
+
+opacity:0;
+transform:translateY(40px) scale(.8);
+
+}
+
+to{
+
+opacity:1;
+transform:translateY(0) scale(1);
+
+}
+
+}
+
+h1{
+
+text-align:center;
+margin-bottom:25px;
+color:#333;
+
+}
+
+form p{
+
+margin-bottom:18px;
+
+}
+
+label{
+
+display:block;
+margin-bottom:8px;
+font-weight:bold;
+color:#444;
+
+}
+
+input,
+select,
+textarea{
+
+width:100%;
+padding:12px;
+border:2px solid #ddd;
+border-radius:10px;
+outline:none;
+transition:.3s;
+
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+
+border-color:#00bcd4;
+box-shadow:0 0 10px rgba(0,188,212,.4);
+
+}
+
+button{
+
+width:100%;
+padding:14px;
+border:none;
+background:#00bcd4;
+color:white;
+font-size:18px;
+border-radius:10px;
+cursor:pointer;
+transition:.4s;
+
+}
+
+button:hover{
+
+background:#0097a7;
+transform:translateY(-3px);
+
+}
+
+a{
+
+display:block;
+text-align:center;
+margin-top:18px;
+text-decoration:none;
+font-weight:bold;
+color:#00bcd4;
+
+}
+
+a:hover{
+
+color:#009688;
+
+}
+
+@media(max-width:600px){
+
+.container{
+
+padding:20px;
+
+}
+
+h1{
+
+font-size:25px;
+
+}
+
+button{
+
+font-size:16px;
+
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Add Student</h1>
+
+<form method="POST">
+
+{% csrf_token %}
+
+{{ form.as_p }}
+
+<button type="submit">
+Save Student
+</button>
+
+</form>
+
+<a href="{% url 'student_list' %}">
+View Student List
+</a>
+
+</div>
+
+</body>
+</html>
